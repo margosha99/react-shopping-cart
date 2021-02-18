@@ -2,6 +2,31 @@ import React, { Component } from 'react'
 import formatCurrency from '../util';
 
 export default class Cart extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state ={ 
+            name: "",
+            email: "",
+            address: "",
+            showCheckout: false
+        }
+
+    }
+    handleInput = (e) => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    createOrder = (e) =>{
+        e.preventDefault();
+        const order = {
+            name: this.state.name,
+            email: this.state.email,
+            address: this.state.address,
+            cartItems: this.props.cartItems 
+        }
+
+        this.props.createOrder(order);
+    }
     render() {
         const {cartItems} = this.props;
         let sum = 0;
@@ -30,16 +55,44 @@ export default class Cart extends Component {
                             ))}
                         </ul>
                     </div>
-                    <div className="cart">
-                        <div className="total">
-                            <div>
-                            Total:{" "}
-                            {formatCurrency(cartItems.reduce((sum, curElement) => 
-                                sum + (curElement.price*curElement.count), 0))}                                
+                    {cartItems.lenght !== 0 && (
+                        <div>
+                            <div className="cart">
+                                <div className="total">
+                                    <div>
+                                    Total:{" "}
+                                    {formatCurrency(cartItems.reduce((sum, curElement) => 
+                                        sum + (curElement.price*curElement.count), 0))}                                
+                                    </div>
+                                    <button className="btn-proceed" 
+                                        onClick={() => {this.setState({showCheckout: true}) }}>Proceed</button>
+                                </div>
                             </div>
-                            <button className="btn-proceed">Proceed</button>
+                            {this.state.showCheckout && (
+                                <div className="cart">
+                                <form onSubmit={this.createOrder}>
+                                    <ul className="form-container">
+                                        <li>
+                                            <lable>Email</lable>
+                                            <input name="email" type="email" required onChange={this.handleInput}></input>
+                                        </li>
+                                        <li>
+                                            <lable>Name</lable>
+                                            <input name="name" type="text" required onChange={this.handleInput}></input>
+                                        </li>
+                                        <li>
+                                            <lable>Address</lable>
+                                            <input name="address" type="text" required onChange={this.handleInput}></input>
+                                        </li>
+                                        <li>
+                                            <button className="primary" type="submit">Checkout</button>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </div>
+                            )}
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         )
