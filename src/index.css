@@ -7,6 +7,7 @@ html{
 body, #root{
   height: 100vh;
   margin: 0px;
+  box-sizing: border-box;
 }
 body,input, select,textarea, button {
   font-size: 1.4rem;
@@ -103,17 +104,21 @@ footer{
   font-size: 2rem;
 }
 .button{
-  padding: 1rem;
   border: 0.1rem #c0c0c0 solid;
   background-color: #f0f0f0;
   cursor: pointer;
+  background-color: #f0c040;
+  padding: .5rem;
+}
+.primary{
+  padding: .5rem;
+  border: 0.1rem #c0c0c0 solid;
+  background-color: #f0c040;
+  cursor: pointer;
+  border: none
 }
 .button:hover{
   border: 0.1rem #808080 solid;
-}
-.button.primary{
-  background-color: #f0c040;
-
 }
 
 /* FILTER */
@@ -169,8 +174,9 @@ footer{
   cursor: pointer;
 }
 .cart-item-btn:hover{
-  border: 0.1rem #808080 solid;
+  border: 0.1rem #f0c040 solid;
   background-color: #f0c040;
+  color: #fff
 }
 .total{
   display: flex;
@@ -204,11 +210,63 @@ footer{
   flex-direction: column;
   margin-bottom: 1rem;
 }
-.primary{
 
-  padding: .5rem;
-  border: 0.1rem #c0c0c0 solid;
-  background-color: #f0c040;
-  cursor: pointer;
-  border: none
+
+
+/* MODAL WINDOW */
+
+.modal-main {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  position:fixed;
+  width: 90%;
+  height: 80%;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  overflow: hidden;
+  max-height: 96vh;
+}
+.modal-main img{
+  height: 80%;
+  max-height: 100vh;
+  max-width: 46rem;
+}
+.modal-info{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+.modal-info p{
+  margin: 10px 0; 
+}
+.modal-price{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.modal-price span{
+  flex: 1;
+  text-align: center;
+}
+.modal-price button{
+  flex: 1;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+.size-btn{
+  margin: 0px 5px;
+}
+
+.close-modal{
+  align-self: flex-start;
 }
