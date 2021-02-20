@@ -16,8 +16,6 @@ class App extends React.Component {
     }
   }
   createOrder = (order) => {
-    // clear form inputs
-    
     alert("Need to save order for " + order.name)
   }
   removeFromCart = (product) => {
