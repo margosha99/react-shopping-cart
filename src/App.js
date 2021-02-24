@@ -2,7 +2,8 @@ import React  from "react";
 import Cart from "./components/Cart";
 import Filter from "./components/Filter";
 import Products from "./components/Products";
-import data from './data.json'
+import data from './api/data.json';
+import store from './store'
 
 class App extends React.Component {
 
