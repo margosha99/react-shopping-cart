@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React,{ Component } from 'react'
 import formatCurrency from '../util'
 import Modal from 'react-modal';
-import Zoom  from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
+import { fetchProducts } from '../actions/productActions';
+import { connect } from 'react-redux';
+import { FETCH_PRODUCTS } from '../types';
 
-export default class Products extends Component {
+
+class Products extends Component {
 
     constructor(props){
         super(props);
@@ -13,6 +16,9 @@ export default class Products extends Component {
             product: null
         }
         
+    }
+    componentDidMount(){
+        this.props.fetchProducts();
     }
     showModal = (product) => {
         this.setState({product})
@@ -27,22 +33,24 @@ export default class Products extends Component {
         return (
             <div>
                 <Fade bottom cascade>
-                    <ul className="products">
-                        {this.props.products.map(product => (
-                            <li key={product._id}>
-                                <div className="product">
-                                    <a href={"#" + product._id} onClick={() => this.showModal(product)}>
-                                    <img src={product.image} alt={product.title}/>
-                                    <p>{product.title}</p>
-                                    </a>
-                                    <div className="product-price">
-                                        <p>{formatCurrency(product.price)}</p>
-                                        <button className="button primary" onClick={() => this.props.addToCart(product)}>Add To Cart</button>
+                    { !this.props.products ? (<div>Loading...</div>) : (
+                        <ul className="products">
+                            {this.props.products.map(product => (
+                                <li key={product._id}>
+                                    <div className="product">
+                                        <a href={"#" + product._id} onClick={() => this.showModal(product)}>
+                                        <img src={product.image} alt={product.title}/>
+                                        <p>{product.title}</p>
+                                        </a>
+                                        <div className="product-price">
+                                            <p>{formatCurrency(product.price)}</p>
+                                            <button className="button primary" onClick={() => this.props.addToCart(product)}>Add To Cart</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </Fade>
                 {product && 
                     <Modal isOpen={true}
@@ -72,3 +80,16 @@ export default class Products extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        products: state.products.items
+    }
+}
+const mapDispatchToprops = dispatch => {
+    return {
+        fetchProducts: () => dispatch(fetchProducts())
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToprops)(Products);
