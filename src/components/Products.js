@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import Fade from "react-reveal/Fade";
 import { fetchProducts } from '../actions/productActions';
 import { connect } from 'react-redux';
-import { FETCH_PRODUCTS } from '../types';
+import { addToCart } from '../actions/cartActions';
 
 
 class Products extends Component {
@@ -88,7 +88,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        fetchProducts: () => dispatch(fetchProducts())
+        fetchProducts: () => dispatch(fetchProducts()),
+        addToCart: (product) => dispatch(addToCart(product))
     }
 }
 
