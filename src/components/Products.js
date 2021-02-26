@@ -83,13 +83,13 @@ class Products extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products.items
+        products: state.products.filteredItems
     }
 }
-const mapDispatchToprops = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         fetchProducts: () => dispatch(fetchProducts())
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToprops)(Products);
+export default connect(mapStateToProps,mapDispatchToProps)(Products);

@@ -1,13 +1,22 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { filterProducts, sortProducts } from '../actions/productActions'
 
-export default class Filter extends Component {
+class Filter extends Component {
     render() {
         return (
-            <div className="filter">
-                <div className="filter-result">{this.props.count} Products</div>
+            !this.props.filteredProducts ? 
+                (<div>Loading...</div>) :   
+            (<div className="filter">
+                <div className="filter-result">{this.props.filteredProducts.length} Products</div>
                 <div className="filter-sort">
                     Order {" "}
-                    <select value={this.props.size} onChange={this.props.sortProducts}>
+                    <select
+                        value={this.props.sort}
+                        onChange={(e) =>
+                            this.props.sortProducts(
+                            this.props.filteredProducts,e.target.value)
+                        }>                        
                         <option value="">Latest</option>
                         <option value="lowest">Lowest</option>
                         <option value="highest">Highest</option>
@@ -15,7 +24,11 @@ export default class Filter extends Component {
                 </div>
                 <div className="filter-size">
                     Filter {" "}
-                    <select value={this.props.size} onChange={this.props.filterProducts}>
+                    <select
+                        value={this.props.size}
+                        onChange={(e) =>
+                        this.props.filterProducts(this.props.products, e.target.value)
+                        }>                        
                         <option value="">ALL</option>
                         <option value="XS">XS</option>
                         <option value="S">S</option>
@@ -25,7 +38,24 @@ export default class Filter extends Component {
                         <option value="XXL">XXL</option>
                     </select>
                 </div>
-            </div>
+            </div>)
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return{
+        size: state.products.size,
+        sort: state.products.sort,
+        products: state.products.items,
+        filteredProducts: state.products.filteredItems
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        filterProducts: (items, val) => dispatch(filterProducts(items,val)),
+        sortProducts: (items,val) => dispatch(sortProducts(items, val))
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);
